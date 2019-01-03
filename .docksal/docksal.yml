@@ -1,0 +1,33 @@
+version: "2.1"
+
+services:
+  web:
+    image: wodby/drupal-nginx:8-1.12-4.0.4
+    volumes:
+      # Suppress the permissions fixer script in wodby/drupal-nginx
+      - ${PROJECT_ROOT}/.docksal/services/web/init_volumes:/usr/local/bin/init_volumes
+    environment:
+      - NGINX_BACKEND_HOST=cli
+      - NGINX_SERVER_ROOT=/var/www/${DOCROOT}
+    working_dir: /var/www/${DOCROOT}
+  redis:
+    hostname: redis
+    image: wodby/redis:4.0
+    environment:
+      - REDIS_MAXMEMORY=256m
+  # Varnish
+  varnish:
+    image: wodby/varnish:4.1
+    container_name: "echoes_varnish"
+    depends_on:
+      - cli
+    environment:
+      VARNISH_SECRET: secret
+      VARNISH_BACKEND_HOST: cli
+      VARNISH_BACKEND_PORT: 80
+      VARNISH_CONFIG_PRESET: drupal
+      VARNISH_PURGE_EXTERNAL_REQUEST_HEADER: X-Real-IP
+    labels:
+      - 'traefik.backend=echoes_varnish'
+      - 'traefik.port=6081'
+      - 'traefik.frontend.rule=Host:varnish.{$VIRTUAL_HOST}'
