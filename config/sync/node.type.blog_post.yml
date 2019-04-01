@@ -1,0 +1,17 @@
+uuid: c815d14f-c41b-4164-ba05-2dd542f75de0
+langcode: en
+status: true
+dependencies:
+  module:
+    - menu_ui
+third_party_settings:
+  menu_ui:
+    available_menus: {  }
+    parent: ''
+name: 'Blog post'
+type: blog_post
+description: 'Blog post content type allowing to get the information using the cards.'
+help: ''
+new_revision: true
+preview_mode: 1
+display_submitted: true

@@ -1,0 +1,9 @@
+uuid: 471753e1-f033-4967-bf89-d564d43c6c4b
+langcode: en
+status: true
+dependencies: {  }
+id: card
+label: Card
+icon_uuid: null
+description: 'Paragraph representing the card'
+behavior_plugins: {  }
